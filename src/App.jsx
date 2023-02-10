@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminLogin from './Admin/Authentication/Login/Login';
-import BannerManagement from './Admin/BannerManagement/BannerManagement';
+// import BannerManagement from './Admin/BannerManagement/BannerManagement';
 import CategoryManagement from './Admin/CategoryManagement/CategoryManagement';
 import AdminDashboard from './Admin/Dashboard/AdminDashboard';
 import UserManagement from './Admin/UserManagement/UserManagement';
@@ -11,11 +11,11 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path='/admin/Login' element={<AdminLogin />}/>
-          <Route path='/admin/Dashboard' element={<AdminDashboard />}/>
+          <Route path='/admin/login' element={<AdminLogin />}/>
+          <Route path='/admin/dashboard' element={<AdminDashboard />}/>
           <Route path='/admin/manageUser' element={<UserManagement />}/>
           <Route path='/admin/manageVendor' element={<VendorManagement />}/>
-          <Route path='/admin/manageBanner' element={<BannerManagement />}/>
+          {/* <Route path='/admin/manageBanner' element={<BannerManagement />}/> */}
           <Route path='/admin/manageCategory' element={<CategoryManagement />}/>
         </Routes>
       </Router>

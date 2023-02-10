@@ -161,7 +161,7 @@ function VendorManagement() {
                         </span>
                       </a>
                     </li>
-                    <li className="mt-2 w-full">
+                    {/* <li className="mt-2 w-full">
                       <a
                         className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors hover:rounded-xl hover:bg-zinc-300"
                         href="../pages/sign-in.html"
@@ -207,7 +207,7 @@ function VendorManagement() {
                           Banner Management
                         </span>
                       </a>
-                    </li>
+                    </li> */}
                     <li className="mt-2 w-full">
                       <a
                         className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors hover:rounded-xl hover:bg-zinc-300"
