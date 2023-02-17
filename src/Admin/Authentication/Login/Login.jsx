@@ -11,13 +11,6 @@ import logo from "../../../assets/img/Logo1.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Marketplace", href: "#" },
-  { name: "Services", href: "#" },
-  { name: "Products", href: "#" },
-];
-
 export default function AdminLogin() {
 
   const navigate = useNavigate()
@@ -33,7 +26,9 @@ export default function AdminLogin() {
     axios.post("http://localhost:3500/admin/login",{
       email,
       password
-    }).then(() => {
+    }).then((result) => {
+      console.log(result);
+      localStorage.setItem("jwt", result.data.token)
       navigate("/admin/Dashboard")
     })
   }
@@ -63,15 +58,7 @@ export default function AdminLogin() {
               </button>
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="font-semibold text-gray-800 hover:text-gray-700"
-                >
-                  {item.name}
-                </a>
-              ))}
+              
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end"></div>
           </nav>
@@ -101,15 +88,7 @@ export default function AdminLogin() {
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="space-y-2 py-6">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10"
-                      >
-                        {item.name}
-                      </a>
-                    ))}
+                    
                   </div>
                 </div>
               </div>
