@@ -15,7 +15,6 @@ function CategoryManagement() {
   const allCategory = async () => {
     await allCat(token).then((result) => {
       setCategory(result.data.data.categories);
-      setReRender(!reRender)
     })
   }
 

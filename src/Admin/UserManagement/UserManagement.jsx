@@ -26,7 +26,7 @@ function UserManagement() {
   }
 
   const unblockUser = async (id) => {
-    await unblckUser(token).then(() => {
+    await unblckUser(id, token).then(() => {
       navigate("/admin/manageUser")
       setReRender(!reRender)
     })

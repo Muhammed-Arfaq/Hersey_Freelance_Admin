@@ -4,11 +4,12 @@ import logo from "../../assets/img/Logo1.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setCreateSwitchOn } from "../../Redux/Reducer/vendorModal";
 import VendorDetails from "../VendorModal/VendorDetails";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { allVndr, approveVndr, blockVndr } from "../../API";
 
 function VendorManagement() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [vendors, setVendors] = useState([])
   const [reRender, setReRender] = useState(false)
@@ -22,14 +23,14 @@ function VendorManagement() {
   }
 
   const approveVendor = async (id) => {
-    await approveVndr(token).then(() => {
+    await approveVndr(id, token).then(() => {
       setReRender(!reRender)
       navigate("/admin/manageVendor")
     })
   }
 
   const blockVendor = async (id) => {
-    await blockVndr(token).then(() => {
+    await blockVndr(id, token).then(() => {
       setReRender(!reRender)
       navigate("/admin/manageVendor")
     })
@@ -386,7 +387,7 @@ function VendorManagement() {
                                 <span className="font-semibold leading-tight text-xs text-slate-400">{vendor.phone}</span>
                               </td>
                               <td className="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
-                                <span className="bg-gradient-to-tl from-red-600 to-red-400 px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">{vendor.status}</span>
+                                <span className="text-black px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none">{vendor.status}</span>
                               </td>
                               <td className="p-2 align-middle text-center bg-transparent border-b whitespace-nowrap shadow-transparent">
 
