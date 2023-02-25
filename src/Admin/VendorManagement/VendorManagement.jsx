@@ -392,7 +392,7 @@ function VendorManagement() {
                               <td className="p-2 align-middle text-center bg-transparent border-b whitespace-nowrap shadow-transparent">
 
                                 {vendor.status === 'Not Approved' || vendor.status === 'Blocked' ? <button onClick={() => approveVendor(vendor._id)}><span className="bg-gradient-to-tl  px-3 text-xs from-green-600 to-lime-400 rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Approve</span></button> :
-                                  <button onClick={() => blockVendor(vendor._id)}><span className="bg-gradient-to-tl  px-3 text-xs from-green-600 to-lime-400 rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Block</span></button>
+                                  <button onClick={() => blockVendor(vendor._id)}><span className="px-3 text-xs bg-gradient-to-r from-red-900 to-red-500 rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Block</span></button>
                                 }
                               </td>
                             </tr>

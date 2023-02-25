@@ -14,7 +14,6 @@ function UserManagement() {
   const allUsers = async () => {
     await allUser(token).then((result) => {
       setUsers(result.data.data.users);
-      setReRender(!reRender)
     })
   }
 
@@ -382,12 +381,12 @@ function UserManagement() {
                                 <span className="font-semibold leading-tight text-xs text-slate-400">{user.phone}</span>
                               </td>
                               <td className="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
-                                <span className="bg-gradient-to-tl from-green-600 to-lime-400 px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">{user.status}</span>
+                                <span className=" px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-black">{user.status}</span>
                               </td>
                               <td className="p-2 align-middle text-center bg-transparent border-b whitespace-nowrap shadow-transparent">
 
                                 { user.status === 'Active' ? <button onClick={() => blockUser(user._id)}><span className="bg-gradient-to-tl from-red-600 to-red-400 px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Block</span></button> :
-                                  <button onClick={() => unblockUser(user._id)}><span className="bg-gradient-to-tl from-red-600 to-red-400 px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">UnBlock</span></button>
+                                  <button onClick={() => unblockUser(user._id)}><span className="bg-gradient-to-r from-emerald-500 to-emerald-900 px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">UnBlock</span></button>
                                 }
                               </td>
                             </tr>
