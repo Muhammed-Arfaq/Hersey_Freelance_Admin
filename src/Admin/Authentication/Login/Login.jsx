@@ -10,6 +10,8 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../../../assets/img/Logo1.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { adminLogin } from "../../../YupSchema/ClientLogin";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function AdminLogin() {
 
@@ -19,23 +21,56 @@ export default function AdminLogin() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState({})
 
-  const eventHandler = (e) => {
+  const eventHandler = async (e) => {
     e.preventDefault()
 
-    axios.post("http://localhost:3500/admin/login",{
+    const formData = {
       email,
       password
-    }).then((result) => {
-      console.log(result);
-      localStorage.setItem("jwt", result.data.token)
-      navigate("/admin/Dashboard")
-    })
+    }
+
+    await adminLogin
+      .validate(formData, { abortEarly: false })
+      .then(() => {
+        axios.post("http://localhost:3500/admin/login", {
+          email,
+          password
+        }).then((result) => {
+          if (result.data.status === "Success") {
+            localStorage.setItem("jwt", result.data.token)
+            toast.success("Login Successful")
+            setTimeout(()=>{
+              navigate("/admin/Dashboard")
+            },800)
+          } else {
+            toast.error("Wrong Email or Password")
+          }
+        })
+      })
+      .catch((validationErrors) => {
+        console.log(validationErrors, "dtf");
+        const errors = validationErrors.inner.reduce((acc, error) => {
+          return { ...acc, [error.path]: error.message };
+        }, {});
+
+        setErrors(errors);
+        console.log(errors);
+
+        Object.values(errors).forEach((error) => {
+          toast.error(error, {
+            position: "bottom-right",
+            autoClose: 10000,
+          })
+        });
+      });
   }
 
   return (
     <>
       <div className="relative z-10 px-6 pt-4 pb-4 lg:px-8">
+        <Toaster />
         <div>
           <nav
             className="flex h-9 items-center justify-between"
@@ -58,7 +93,7 @@ export default function AdminLogin() {
               </button>
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
-              
+
             </div>
             <div className="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end"></div>
           </nav>
@@ -88,7 +123,7 @@ export default function AdminLogin() {
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="space-y-2 py-6">
-                    
+
                   </div>
                 </div>
               </div>
@@ -150,7 +185,7 @@ export default function AdminLogin() {
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                         placeholder="Email"
                         value={email}
-                        onChange = {(e) => {
+                        onChange={(e) => {
                           setEmail(e.target.value)
                         }}
                       />
