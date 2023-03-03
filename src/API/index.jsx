@@ -17,3 +17,7 @@ export const allVndr = (token) => axios.get("/admin/vendorManagement", { headers
 export const approveVndr = (id, token) => axios.post("/admin/approveVendor", {id}, { headers: { Authorization: `Bearer ${token}` } })
 
 export const blockVndr = (id, token) => axios.post("/admin/blockVendor", {id}, { headers: { Authorization: `Bearer ${token}` } })
+
+export const dashboardCount = (token) => axios.get("/admin/dashboardCount", { headers: { Authorization: `Bearer ${token}` } })
+
+export const recentUsers = (token) => axios.get('/admin/newUsers', { headers: { Authorization: `Bearer ${token}` } })

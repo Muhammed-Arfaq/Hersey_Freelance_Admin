@@ -19,21 +19,21 @@ function VendorManagement() {
     await allVndr(token).then((result) => {
       setVendors(result.data.data.vendors);
       console.log(result.data.data.vendors);
-    })
+    }).catch(err => console.log(err));
   }
 
   const approveVendor = async (id) => {
     await approveVndr(id, token).then(() => {
       setReRender(!reRender)
       navigate("/admin/manageVendor")
-    })
+    }).catch(err => console.log(err));
   }
 
   const blockVendor = async (id) => {
     await blockVndr(id, token).then(() => {
       setReRender(!reRender)
       navigate("/admin/manageVendor")
-    })
+    }).catch(err => console.log(err));
   }
 
   useEffect(() => {

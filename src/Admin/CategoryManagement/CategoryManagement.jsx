@@ -15,7 +15,7 @@ function CategoryManagement() {
   const allCategory = async () => {
     await allCat(token).then((result) => {
       setCategory(result.data.data.categories);
-    })
+    }).catch(err => console.log(err));
   }
 
   const deleteCategory = async (id) => {
@@ -23,14 +23,14 @@ function CategoryManagement() {
     await dltCat(id, token).then(() => {
         navigate('/admin/manageCategory')
       setReRender(!reRender)
-    })
+    }).catch(err => console.log(err));
   }
 
   const addNewCategory = async(e) => {
    await addCat(name, token).then(() => {
     navigate('/admin/manageCategory')
     setReRender(!reRender)
-    })
+    }).catch(err => console.log(err));
   }
 
   useEffect(() => {

@@ -14,21 +14,21 @@ function UserManagement() {
   const allUsers = async () => {
     await allUser(token).then((result) => {
       setUsers(result.data.data.users);
-    })
+    }).catch(err => console.log(err));
   }
 
   const blockUser = async (id) => {
     await blckUser(id, token).then(() => {
       navigate("/admin/manageUser")
       setReRender(!reRender)
-    })
+    }).catch(err => console.log(err));
   }
 
   const unblockUser = async (id) => {
     await unblckUser(id, token).then(() => {
       navigate("/admin/manageUser")
       setReRender(!reRender)
-    })
+    }).catch(err => console.log(err));
   }
 
   useEffect(() => {
