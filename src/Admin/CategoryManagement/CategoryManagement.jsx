@@ -245,7 +245,7 @@ function CategoryManagement() {
                     <li className="mt-2 w-full">
                       <Link
                         className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors hover:rounded-xl hover:bg-zinc-300"
-                        to="/admin/login"
+                        to="/"
                         onClick={() => logout()}
                       >
                         <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">

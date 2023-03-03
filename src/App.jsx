@@ -12,7 +12,7 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path='/admin/login' element={<ReRoute><AdminLogin /></ReRoute>} />
+          <Route path='/' element={<ReRoute><AdminLogin /></ReRoute>} />
             <Route path='/admin/dashboard' element={<ProtectedRoutes><AdminDashboard /></ProtectedRoutes>} />
             <Route path='/admin/manageUser' element={<ProtectedRoutes><UserManagement /></ProtectedRoutes>} />
             <Route path='/admin/manageVendor' element={<ProtectedRoutes><VendorManagement /></ProtectedRoutes>} />
