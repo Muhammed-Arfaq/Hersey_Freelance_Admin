@@ -94,14 +94,10 @@ function AdminDashboard() {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                },
-              },
-            ],
-          },
+            y: {
+              beginAtZero: true
+            }
+          }
         },
       });
     }
@@ -536,54 +532,12 @@ function AdminDashboard() {
                 <div className="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
                   <div className="flex flex-wrap mt-0 -mx-3">
                     <div className="flex-none w-7/12 max-w-full px-3 mt-0 lg:w-1/2 lg:flex-none">
-                      <h6>User's</h6>
+                      <h6>User's Graph</h6>
                       <p className="mb-0 leading-normal text-sm">
                         <i className="fa fa-check text-cyan-500"></i>
-                        <span className="ml-1 font-semibold">30 done</span>
-                        this month
-                      </p>
-                    </div>
-                    <div className="flex-none w-5/12 max-w-full px-3 my-auto text-right lg:w-1/2 lg:flex-none">
-                      <div className="relative pr-6 lg:float-right">
-                        <a
-                          dropdown-trigger
-                          className="cursor-pointer"
-                          aria-expanded="false"
-                        >
-                          <i className="fa fa-ellipsis-v text-slate-400"></i>
-                        </a>
-                        <p className="hidden transform-dropdown-show"></p>
+                        <span className="ml-1 font-semibold"></span>
 
-                        <ul
-                          dropdown-menu
-                          className="z-100 text-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 m-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']"
-                        >
-                          <li className="relative">
-                            <a
-                              className="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300"
-                              href="javascript:;"
-                            >
-                              Action
-                            </a>
-                          </li>
-                          <li className="relative">
-                            <a
-                              className="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300"
-                              href="javascript:;"
-                            >
-                              Another action
-                            </a>
-                          </li>
-                          <li className="relative">
-                            <a
-                              className="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300"
-                              href="javascript:;"
-                            >
-                              Something else here
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -600,12 +554,12 @@ function AdminDashboard() {
             {/* <!-- card 2 --> */}
 
             <div className="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
-              <div className="border-black/12.5 shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+              <div className="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                 <div className="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-                  <h6>User's overview</h6>
+                  <h6 className="font-mono font-bold text-lg">Recent Orders</h6>
                   <p className="leading-normal text-sm">
                     <i className="fa fa-arrow-up text-lime-500"></i>
-                    <span className="font-semibold">24%</span> this month
+                    <span className="font-semibold"></span>
                   </p>
                 </div>
                 <div className="flex-auto p-4">
@@ -613,9 +567,7 @@ function AdminDashboard() {
                     {newUsers.map((newUser) => (
                       <div className="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
                         <span className="w-6.5 h-6.5 text-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-                          <div class="w-1/12 z-10">
-                            <div class="w-3.5 h-3.5 bg-gradient-to-r from-fuchsia-800 to-indigo-900 rounded-full"></div>
-                          </div>
+                          <div class="w-3.5 h-3.5 bg-gradient-to-r from-fuchsia-800 to-indigo-900 rounded-full"></div>
                         </span>
                         <div className="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
                           <h6 className="mb-0 font-semibold leading-normal text-sm text-slate-700">
@@ -627,7 +579,6 @@ function AdminDashboard() {
                         </div>
                       </div>
                     ))}
-
                   </div>
                 </div>
               </div>
