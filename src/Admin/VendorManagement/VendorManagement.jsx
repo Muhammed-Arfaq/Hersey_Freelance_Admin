@@ -6,6 +6,7 @@ import { setCreateSwitchOn } from "../../Redux/Reducer/vendorModal";
 import VendorDetails from "../VendorModal/VendorDetails";
 import { Link, useNavigate } from "react-router-dom";
 import { allVndr, approveVndr, blockVndr } from "../../API";
+import { toast, Toaster } from "react-hot-toast";
 
 function VendorManagement() {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ function VendorManagement() {
 
   const approveVendor = async (id) => {
     await approveVndr(id, token).then(() => {
+      toast.success("Approved Vendor Successfully")
       setReRender(!reRender)
       navigate("/admin/manageVendor")
     }).catch(err => console.log(err));
@@ -31,6 +33,7 @@ function VendorManagement() {
 
   const blockVendor = async (id) => {
     await blockVndr(id, token).then(() => {
+      toast.success("Blocked Vendor Successfully")
       setReRender(!reRender)
       navigate("/admin/manageVendor")
     }).catch(err => console.log(err));
@@ -48,6 +51,7 @@ function VendorManagement() {
     <div>
       <VendorDetails />
       <div className="grid grid-cols-12">
+        <Toaster/>
         <div className="z-10 my-4 mx-3 col-span-3 mt-20">
           <div className="w-full max-w-full px-3 lg:w-80 lg:flex-none fixed">
             <div className="border-black shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">

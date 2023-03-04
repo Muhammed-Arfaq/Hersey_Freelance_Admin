@@ -3,6 +3,7 @@ import "./UserManagement.css";
 import logo from "../../assets/img/Logo1.png";
 import { Link, useNavigate } from "react-router-dom";
 import { allUser, blckUser, unblckUser } from "../../API";
+import { toast, Toaster } from "react-hot-toast";
 
 function UserManagement() {
 
@@ -19,6 +20,7 @@ function UserManagement() {
 
   const blockUser = async (id) => {
     await blckUser(id, token).then(() => {
+      toast.success("Blocked User Successfully")
       navigate("/admin/manageUser")
       setReRender(!reRender)
     }).catch(err => console.log(err));
@@ -26,6 +28,7 @@ function UserManagement() {
 
   const unblockUser = async (id) => {
     await unblckUser(id, token).then(() => {
+      toast.success("Unblocked User Successfully")
       navigate("/admin/manageUser")
       setReRender(!reRender)
     }).catch(err => console.log(err));
@@ -42,6 +45,7 @@ function UserManagement() {
   return (
     <div>
       <div className="grid grid-cols-12">
+        <Toaster/>
       <div className="z-10 my-4 mx-3 col-span-3 mt-20">
           <div className="w-full max-w-full px-3 lg:w-80 lg:flex-none fixed">
             <div className="border-black shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">

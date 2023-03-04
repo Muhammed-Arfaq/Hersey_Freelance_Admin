@@ -3,6 +3,7 @@ import "./categoryManagement.css";
 import logo from "../../assets/img/Logo1.png";
 import { Link, useNavigate } from "react-router-dom";
 import { addCat, allCat, dltCat } from "../../API";
+import { toast, Toaster } from "react-hot-toast";
 
 function CategoryManagement() {
 
@@ -21,6 +22,7 @@ function CategoryManagement() {
   const deleteCategory = async (id) => {
     console.log(id);
     await dltCat(id, token).then(() => {
+      toast.success("Category Deleted Successfully")
         navigate('/admin/manageCategory')
       setReRender(!reRender)
     }).catch(err => console.log(err));
@@ -28,6 +30,7 @@ function CategoryManagement() {
 
   const addNewCategory = async(e) => {
    await addCat(name, token).then(() => {
+    toast.success("Category Added Successfully")
     navigate('/admin/manageCategory')
     setReRender(!reRender)
     }).catch(err => console.log(err));
@@ -44,6 +47,7 @@ function CategoryManagement() {
   return (
     <div>
       <div className="grid grid-cols-12">
+        <Toaster/>
       <div className="z-10 my-4 mx-3 col-span-3 mt-20">
           <div className="w-full max-w-full px-3 lg:w-80 lg:flex-none fixed">
             <div className="border-black shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
