@@ -4,6 +4,9 @@ import logo from "../../assets/img/Logo1.png";
 import { Link, useNavigate } from "react-router-dom";
 import { addCat, allCat, dltCat } from "../../API";
 import { toast, Toaster } from "react-hot-toast";
+import moment from "moment";
+import ReactPaginate from "react-paginate";
+import Swal from "sweetalert2";
 
 function CategoryManagement() {
 
@@ -13,6 +16,22 @@ function CategoryManagement() {
   const [reRender, setReRender] = useState(false)
   const token = localStorage.getItem("jwt")
 
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(2);
+
+  const searchData = (tempProduct) => {
+    return search === ""
+      ? tempProduct
+      : tempProduct.title.toLowerCase().includes(search)
+  };
+
+  const dataToRender = category.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
   const allCategory = async () => {
     await allCat(token).then((result) => {
       setCategory(result.data.data.categories);
@@ -20,20 +39,42 @@ function CategoryManagement() {
   }
 
   const deleteCategory = async (id) => {
-    console.log(id);
-    await dltCat(id, token).then(() => {
-      toast.success("Category Deleted Successfully")
-        navigate('/admin/manageCategory')
-      setReRender(!reRender)
-    }).catch(err => console.log(err));
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Delete Category!'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await dltCat(id, token).then(() => {
+          toast.success("Category Deleted Successfully")
+          navigate('/admin/manageCategory')
+          setReRender(!reRender)
+        }).catch(err => console.log(err));
+      }
+    })
   }
 
-  const addNewCategory = async(e) => {
-   await addCat(name, token).then(() => {
-    toast.success("Category Added Successfully")
-    navigate('/admin/manageCategory')
-    setReRender(!reRender)
-    }).catch(err => console.log(err));
+  const addNewCategory = async (e) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Add Category!'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await addCat(name, token).then(() => {
+          setName("")
+          toast.success("Category Added Successfully")
+          navigate('/admin/manageCategory')
+          setReRender(!reRender)
+        }).catch(err => console.log(err));
+      }
+    })
   }
 
   useEffect(() => {
@@ -47,8 +88,8 @@ function CategoryManagement() {
   return (
     <div>
       <div className="grid grid-cols-12">
-        <Toaster/>
-      <div className="z-10 my-4 mx-3 col-span-3 mt-20">
+        <Toaster />
+        <div className="z-10 my-4 mx-3 col-span-3 mt-20">
           <div className="w-full max-w-full px-3 lg:w-80 lg:flex-none fixed">
             <div className="border-black shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
               <div className="border-black mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
@@ -335,13 +376,7 @@ function CategoryManagement() {
                 </div>
                 <ul className="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
                   <li className="flex items-center">
-                    <a
-                      href=""
-                      className="block px-0 py-2 font-semibold transition-all ease-nav-brand text-sm text-slate-500"
-                    >
-                      <i className="fa fa-user sm:mr-1"></i>
-                      <span className="hidden sm:inline">Sign In</span>
-                    </a>
+                   
                   </li>
                 </ul>
               </div>
@@ -356,7 +391,7 @@ function CategoryManagement() {
               <div class="relative w-full">
                 <input
                   value={name}
-                  onChange={(e)=>{
+                  onChange={(e) => {
                     setName(e.target.value)
                   }}
                   type="text"
@@ -391,31 +426,45 @@ function CategoryManagement() {
                           </tr>
                         </thead>
                         <tbody>
-                          {category.map((cat) => (
+                          {dataToRender.map((cat) => (
                             <tr>
                               <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <div className="flex justify-center">
                                   <div>
-                                    <img src="../assets/img/team-2.jpg" className="inline-flex items-center justify-center mr-3 text-white transition-all duration-200 ease-soft-in-out text-sm h-9 w-9 rounded-xl" alt="user1" />
+
                                   </div>
                                   <div className="flex flex-col justify-center">
-                                    <h6 className="mb-0 leading-normal text-center text-sm">{cat.name}</h6>
+                                    <h6 className="mb-0 leading-normal text-center text-sm">{cat?.name}</h6>
                                   </div>
                                 </div>
                               </td>
                               <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent"></td>
                               <td className="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span className="font-semibold leading-tight text-xs text-slate-400">{cat.date}</span>
+                                <span className="font-semibold leading-tight text-xs text-slate-400">{moment(cat?.date).format("lll")}</span>
                               </td>
                               <td className="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent"></td>
                               <td className="p-2 align-middle text-center bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <button onClick={() => deleteCategory(cat._id)}><span className="bg-gradient-to-tl from-red-600 to-red-400 px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Delete</span></button>
+                                <button onClick={() => deleteCategory(cat?._id)}><span className="bg-gradient-to-tl from-red-600 to-red-400 px-3 text-xs rounded-lg py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Delete</span></button>
                               </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
+                    <ReactPaginate
+                      pageCount={Math.ceil(category.filter(searchData).length / itemsPerPage)}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={handlePageChange}
+                      containerClassName="pagination"
+                      activeClassName="active"
+                      previousLabel="Previous"
+                      nextLabel="Next"
+                      pageLinkClassName="page-link"
+                      previousLinkClassName="page-link"
+                      nextLinkClassName="page-link"
+                      disabledClassName="disabled"
+                    />
                   </div>
                 </div>
               </div>

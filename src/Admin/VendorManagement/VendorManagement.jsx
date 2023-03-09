@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./vendorManagement.css";
+import './paginate.css'
 import logo from "../../assets/img/Logo1.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setCreateSwitchOn } from "../../Redux/Reducer/vendorModal";
@@ -7,6 +8,8 @@ import VendorDetails from "../VendorModal/VendorDetails";
 import { Link, useNavigate } from "react-router-dom";
 import { allVndr, approveVndr, blockVndr } from "../../API";
 import { toast, Toaster } from "react-hot-toast";
+import ReactPaginate from "react-paginate";
+import Swal from "sweetalert2";
 
 function VendorManagement() {
   const dispatch = useDispatch()
@@ -16,6 +19,22 @@ function VendorManagement() {
   const [reRender, setReRender] = useState(false)
   const token = localStorage.getItem("jwt")
 
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(2);
+
+  const searchData = (tempProduct) => {
+    return search === ""
+      ? tempProduct
+      : tempProduct.title.toLowerCase().includes(search)
+  };
+
+  const dataToRender = vendors.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
   const allVendors = async () => {
     await allVndr(token).then((result) => {
       setVendors(result.data.data.vendors);
@@ -24,19 +43,43 @@ function VendorManagement() {
   }
 
   const approveVendor = async (id) => {
-    await approveVndr(id, token).then(() => {
-      toast.success("Approved Vendor Successfully")
-      setReRender(!reRender)
-      navigate("/admin/manageVendor")
-    }).catch(err => console.log(err));
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Approve!'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await approveVndr(id, token).then(() => {
+          toast.success("Approved Vendor Successfully")
+          setReRender(!reRender)
+          navigate("/admin/manageVendor")
+        }).catch(err => console.log(err));
+      }
+    })
+    
   }
 
   const blockVendor = async (id) => {
-    await blockVndr(id, token).then(() => {
-      toast.success("Blocked Vendor Successfully")
-      setReRender(!reRender)
-      navigate("/admin/manageVendor")
-    }).catch(err => console.log(err));
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Block Vendor!'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await blockVndr(id, token).then(() => {
+          toast.success("Vendor Blocked Successfully")
+          setReRender(!reRender)
+          navigate("/admin/manageVendor")
+        }).catch(err => console.log(err));
+
+      }
+    })
   }
 
   useEffect(() => {
@@ -51,7 +94,7 @@ function VendorManagement() {
     <div>
       <VendorDetails />
       <div className="grid grid-cols-12">
-        <Toaster/>
+        <Toaster />
         <div className="z-10 my-4 mx-3 col-span-3 mt-20">
           <div className="w-full max-w-full px-3 lg:w-80 lg:flex-none fixed">
             <div className="border-black shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
@@ -339,13 +382,7 @@ function VendorManagement() {
                 </div>
                 <ul className="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
                   <li className="flex items-center">
-                    <a
-                      href=""
-                      className="block px-0 py-2 font-semibold transition-all ease-nav-brand text-sm text-slate-500"
-                    >
-                      <i className="fa fa-user sm:mr-1"></i>
-                      <span className="hidden sm:inline">Sign In</span>
-                    </a>
+                    
                   </li>
                 </ul>
               </div>
@@ -372,15 +409,15 @@ function VendorManagement() {
                           </tr>
                         </thead>
                         <tbody>
-                          {vendors.map((vendor) => (
+                          {dataToRender.map((vendor) => (
                             <tr>
                               <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <div className="flex px-2 py-1 justify-center">
                                   <div>
-                                    <img src="../assets/img/team-2.jpg" className="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out text-sm h-9 w-9 rounded-xl" alt="user1" />
+                                    <img src={vendor?.profilePhoto} className="inline-flex object-cover items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out text-sm h-9 w-9 rounded-xl" alt="user1" />
                                   </div>
                                   <div className="flex flex-col justify-center">
-                                    <h6 className="mb-0 leading-normal text-sm" onClick={() => dispatch(setCreateSwitchOn(vendor))}>{vendor.fullName}</h6>
+                                    <h6 className="mb-0 leading-normal text-sm cursor-pointer" onClick={() => dispatch(setCreateSwitchOn(vendor))}>{vendor.fullName}</h6>
                                   </div>
                                 </div>
                               </td>
@@ -404,6 +441,20 @@ function VendorManagement() {
                         </tbody>
                       </table>
                     </div>
+                    <ReactPaginate
+                      pageCount={Math.ceil(vendors.filter(searchData).length / itemsPerPage)}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={handlePageChange}
+                      containerClassName="pagination"
+                      activeClassName="active"
+                      previousLabel="Previous"
+                      nextLabel="Next"
+                      pageLinkClassName="page-link"
+                      previousLinkClassName="page-link"
+                      nextLinkClassName="page-link"
+                      disabledClassName="disabled"
+                    />
                   </div>
                 </div>
               </div>

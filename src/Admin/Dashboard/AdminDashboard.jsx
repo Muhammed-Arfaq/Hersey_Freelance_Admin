@@ -409,13 +409,7 @@ function AdminDashboard() {
               </div>
               <ul className="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
                 <li className="flex items-center">
-                  <a
-                    href=""
-                    className="block px-0 py-2 font-semibold transition-all ease-nav-brand text-sm text-slate-500"
-                  >
-                    <i className="fa fa-user sm:mr-1"></i>
-                    <span className="hidden sm:inline">Sign In</span>
-                  </a>
+                  
                 </li>
               </ul>
             </div>
@@ -556,7 +550,7 @@ function AdminDashboard() {
             <div className="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
               <div className="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                 <div className="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-                  <h6 className="font-mono font-bold text-lg">Recent Orders</h6>
+                  <h6 className="font-mono font-bold text-lg">Recent Users</h6>
                   <p className="leading-normal text-sm">
                     <i className="fa fa-arrow-up text-lime-500"></i>
                     <span className="font-semibold"></span>
@@ -574,7 +568,7 @@ function AdminDashboard() {
                             {newUser?.fullName}
                           </h6>
                           <p className="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">
-                            {newUser?.date}
+                            {moment(newUser?.date).format("lll")}
                           </p>
                         </div>
                       </div>
