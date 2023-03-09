@@ -22,7 +22,7 @@ function AdminDashboard() {
   const newUser = () => {
     recentUsers(token).then((result) => {
       setNewUsers(result.data.newUser);
-    })
+    }).catch(() => toast.error("Internal Error"));
   }
 
 
@@ -36,7 +36,7 @@ function AdminDashboard() {
           renderChart();
         })
       } catch (err) {
-        console.log(err);
+        toast.error("Internal Error");
       }
     };
     userData();
@@ -112,7 +112,7 @@ function AdminDashboard() {
   const Count = async () => {
     await dashboardCount(token).then((result) => {
       setDataCount(result.data)
-    }).catch(err => console.log(err));
+    }).catch(() => toast.error("Internal Error"));
   }
 
   useEffect(() => {

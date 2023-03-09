@@ -15,7 +15,7 @@ export default function VendorDetails() {
 
   const dispatch = useDispatch()
   const show = useSelector((state) => state.showVendorDetails.show)
-  console.log(show);
+  // console.log(show);
 
   return (
     <Transition.Root show={show} as={Fragment}>

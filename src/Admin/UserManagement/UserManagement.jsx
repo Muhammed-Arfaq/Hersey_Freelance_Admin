@@ -34,7 +34,7 @@ function UserManagement() {
   const allUsers = async () => {
     await allUser(token).then((result) => {
       setUsers(result.data.data.users);
-    }).catch(err => console.log(err));
+    }).catch(() => toast.error("Internal Error"));
   }
 
   const blockUser = async (id) => {
@@ -51,7 +51,7 @@ function UserManagement() {
           toast.success("User Blocked Successfully")
           navigate("/admin/manageUser")
           setReRender(!reRender)
-        }).catch(err => console.log(err));
+        }).catch(() => toast.error("Internal Error"));
       }
     })
   }
@@ -70,7 +70,7 @@ function UserManagement() {
           toast.success("Unblocked User Successfully")
           navigate("/admin/manageUser")
           setReRender(!reRender)
-        }).catch(err => console.log(err));
+        }).catch(() => toast.error("Internal Error"));
       }
     })
   }

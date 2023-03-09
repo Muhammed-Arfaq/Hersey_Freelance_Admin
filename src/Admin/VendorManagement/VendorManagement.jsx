@@ -39,7 +39,7 @@ function VendorManagement() {
     await allVndr(token).then((result) => {
       setVendors(result.data.data.vendors);
       console.log(result.data.data.vendors);
-    }).catch(err => console.log(err));
+    }).catch(() => toast.error("Internal Error"));
   }
 
   const approveVendor = async (id) => {
@@ -56,7 +56,7 @@ function VendorManagement() {
           toast.success("Approved Vendor Successfully")
           setReRender(!reRender)
           navigate("/admin/manageVendor")
-        }).catch(err => console.log(err));
+        }).catch(() => toast.error("Internal Error"));
       }
     })
     
@@ -76,7 +76,7 @@ function VendorManagement() {
           toast.success("Vendor Blocked Successfully")
           setReRender(!reRender)
           navigate("/admin/manageVendor")
-        }).catch(err => console.log(err));
+        }).catch(() => toast.error("Internal Error"));
 
       }
     })
