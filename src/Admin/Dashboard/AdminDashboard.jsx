@@ -79,11 +79,11 @@ function AdminDashboard() {
       new Chart(ctx, {
         type: 'line',
         data: {
-          labels: labels,
+          labels: labels.reverse(),
           datasets: [
             {
               label: 'User Signups',
-              data: data,
+              data: data.reverse(),
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1,

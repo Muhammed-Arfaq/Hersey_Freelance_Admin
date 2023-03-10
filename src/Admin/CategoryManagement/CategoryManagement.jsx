@@ -18,7 +18,7 @@ function CategoryManagement() {
 
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const searchData = (tempProduct) => {
     return search === ""
