@@ -4,6 +4,9 @@ import { Chart, registerables } from 'chart.js';
 import logo from "../../assets/img/Logo1.png";
 import { Link } from "react-router-dom";
 import { allUser, dashboardCount, recentUsers } from "../../API";
+import MenuIcon from '@mui/icons-material/Menu';
+import { Dialog } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import moment from "moment/moment";
 
 Chart.register(...registerables)
@@ -14,7 +17,7 @@ function AdminDashboard() {
   const [dataCount, setDataCount] = useState("")
   const [users, setUsers] = useState([]);
   const [newUsers, setNewUsers] = useState([])
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const logout = () => {
     localStorage.clear();
   }
@@ -121,9 +124,9 @@ function AdminDashboard() {
 
 
   return (
-    <div className="grid grid-cols-12">
-      <div className="z-10 my-4 mx-3 col-span-3 mt-20">
-        <div className="w-full max-w-full px-3 lg:w-80 lg:flex-none fixed">
+    <div className="grid xl:grid-cols-12 xs:align-middle md:p-5 sm:p-10 xs:p-10 p-10">
+      <div className="xl:block hidden z-10 my-4 col-span-3 mt-20">
+        <div className="px-3 lg:w-80 lg:flex-none fixed">
           <div className="border-black shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
             <div className="border-black mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
               <img className="ml-7 mt-10 w-40" src={logo} alt="" />
@@ -397,10 +400,10 @@ function AdminDashboard() {
                   className="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']"
                   aria-current="page"
                 >
-                  User Management
+                  Admin Dashboard
                 </li>
               </ol>
-              <h6 className="mb-0 font-bold capitalize">User Management</h6>
+              <h6 className="mb-0 font-bold capitalize">Admin Dashboard</h6>
             </nav>
 
             <div className="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
@@ -408,8 +411,73 @@ function AdminDashboard() {
 
               </div>
               <ul className="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
-                <li className="flex items-center">
+                <li className="">
+                  <div className="absolute z-10">
+                    <button type="button" className="block xl:hidden mx-3 text-black" onClick={() => setMobileMenuOpen(true)} ><MenuIcon /></button>
                   
+                      <Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+                        <Dialog.Panel focus="true" className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 xl:hidden">
+                          <div className="flex h-9 items-center justify-between">
+                            <div className="flex">
+                              <a href="#" className="-m-1.5 p-1.5">
+                                <span className="sr-only">Your Company</span>
+                                <img
+                                  className="h-8"
+                                  src={logo}
+                                  alt=""
+                                />
+                              </a>
+                            </div>
+                            <div className="flex">
+                              <button
+                                type="button"
+                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <span className="sr-only">Close menu</span>
+                                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                              </button>
+                            </div>
+                          </div>
+                          <div className="mt-6 flow-root">
+                            <div className="-my-6 divide-y divide-gray-500/10">
+                              <div className="space-y-2 py-6">
+                                <Link to="/admin/dashboard" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  Admin Dashboard
+                                </Link>
+                                <Link to="/admin/manageUser" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  User Management
+                                </Link>
+                                <Link to="/admin/manageVendor" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  Vendor Management
+                                </Link>
+                                <Link to="/admin/manageCategory" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  Category Management
+                                </Link>
+                              </div>
+                              <div className="py-6">
+                                {token &&
+                                  <Link
+                                    to='/login'
+                                    onClick={logout}
+                                    className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
+                                  >
+                                    Logout
+                                  </Link>}
+                                {!token &&
+                                  <Link
+                                    to='/login'
+                                    className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
+                                  >
+                                    Login
+                                  </Link>
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </Dialog.Panel>
+                      </Dialog>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -417,7 +485,7 @@ function AdminDashboard() {
         </nav>
         <div className="w-full mx-auto  mt-4">
           <div className="flex flex-wrap -mx-3">
-            <div className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+            <div className="w-full max-w-full px-3 mb-6 md:w-2/4 sm:w-2/4 lg:w-1/4 sm:flex-none xl:mb-0 xl:w-1/4">
               <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-2xl rounded-2xl bg-clip-border">
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">
@@ -434,7 +502,7 @@ function AdminDashboard() {
                         </h5>
                       </div>
                     </div>
-                    <div className="px-3 text-right basis-1/3">
+                    <div className="px-3 text-right basis-2/3">
                       <div className="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
                         <p className="text-white mt-3 font-mono">{dataCount?.unblockedUserCount || 0}</p>
                       </div>
@@ -443,7 +511,7 @@ function AdminDashboard() {
                 </div>
               </div>
             </div>
-            <div className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+            <div className="w-full max-w-full px-3 mb-6 md:w-2/4 sm:w-2/4 lg:w-1/4 sm:flex-none xl:mb-0 xl:w-1/4">
               <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-2xl rounded-2xl bg-clip-border">
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">
@@ -460,7 +528,7 @@ function AdminDashboard() {
                         </h5>
                       </div>
                     </div>
-                    <div className="px-3 text-right basis-1/3">
+                    <div className="px-3 text-right basis-2/3">
                       <div className="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
                         <p className="text-white mt-3 font-mono">{dataCount?.blockedUserCount || 0}</p>
                       </div>
@@ -469,7 +537,7 @@ function AdminDashboard() {
                 </div>
               </div>
             </div>
-            <div className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+            <div className="w-full max-w-full px-3 mb-6  md:w-2/4 sm:w-2/4 lg:w-1/4 sm:flex-none xl:mb-0 xl:w-1/4">
               <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-2xl rounded-2xl bg-clip-border">
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">
@@ -484,7 +552,7 @@ function AdminDashboard() {
                         </h5>
                       </div>
                     </div>
-                    <div className="px-3 text-right basis-1/3">
+                    <div className="px-3 text-right basis-2/3">
                       <div className="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
                         <p className="text-white mt-3 font-mono">{dataCount?.approvedVendorCount || 0}</p>
                       </div>
@@ -493,7 +561,7 @@ function AdminDashboard() {
                 </div>
               </div>
             </div>
-            <div className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+            <div className="w-full max-w-full px-3 mb-6 md:w-2/4 sm:w-2/4 lg:w-1/4 sm:flex-none xl:mb-0 xl:w-1/4">
               <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-2xl rounded-2xl bg-clip-border">
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">
@@ -508,7 +576,7 @@ function AdminDashboard() {
                         </h5>
                       </div>
                     </div>
-                    <div className="px-3 text-right basis-1/3">
+                    <div className="px-3 text-right basis-2/3">
                       <div className="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
                         <p className="text-white mt-3 font-mono">{dataCount?.blockedVendorCount || 0}</p>
                       </div>

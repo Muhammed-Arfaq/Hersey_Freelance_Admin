@@ -7,6 +7,9 @@ import { setCreateSwitchOn } from "../../Redux/Reducer/vendorModal";
 import VendorDetails from "../VendorModal/VendorDetails";
 import { Link, useNavigate } from "react-router-dom";
 import { allVndr, approveVndr, blockVndr } from "../../API";
+import MenuIcon from '@mui/icons-material/Menu';
+import { Dialog } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import { toast, Toaster } from "react-hot-toast";
 import ReactPaginate from "react-paginate";
 import Swal from "sweetalert2";
@@ -14,6 +17,8 @@ import Swal from "sweetalert2";
 function VendorManagement() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const [vendors, setVendors] = useState([])
   const [reRender, setReRender] = useState(false)
@@ -50,7 +55,7 @@ function VendorManagement() {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, Approve!'
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await approveVndr(id, token).then(() => {
           toast.success("Approved Vendor Successfully")
@@ -59,7 +64,7 @@ function VendorManagement() {
         }).catch(() => toast.error("Internal Error"));
       }
     })
-    
+
   }
 
   const blockVendor = async (id) => {
@@ -70,7 +75,7 @@ function VendorManagement() {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, Block Vendor!'
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await blockVndr(id, token).then(() => {
           toast.success("Vendor Blocked Successfully")
@@ -93,9 +98,9 @@ function VendorManagement() {
   return (
     <div>
       <VendorDetails />
-      <div className="grid grid-cols-12">
+      <div className="grid xl:grid-cols-12 xs:align-middle md:p-5 sm:p-10 xs:p-10 p-10">
         <Toaster />
-        <div className="z-10 my-4 mx-3 col-span-3 mt-20">
+        <div className="xl:block hidden z-10 my-4 mx-3 col-span-3 mt-20">
           <div className="w-full max-w-full px-3 lg:w-80 lg:flex-none fixed">
             <div className="border-black shadow-soft-2xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
               <div className="border-black mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
@@ -370,10 +375,10 @@ function VendorManagement() {
                     className="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']"
                     aria-current="page"
                   >
-                    User Management
+                    Vendor Management
                   </li>
                 </ol>
-                <h6 className="mb-0 font-bold capitalize">User Management</h6>
+                <h6 className="mb-0 font-bold capitalize">Vendor Management</h6>
               </nav>
 
               <div className="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
@@ -381,8 +386,73 @@ function VendorManagement() {
 
                 </div>
                 <ul className="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
-                  <li className="flex items-center">
-                    
+                  <li className="">
+                    <div className="absolute z-10">
+                      <button type="button" className="block xl:hidden  mx-3  text-black" onClick={() => setMobileMenuOpen(true)} ><MenuIcon /></button>
+
+                      <Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+                        <Dialog.Panel focus="true" className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 xl:hidden">
+                          <div className="flex h-9 items-center justify-between">
+                            <div className="flex">
+                              <a href="#" className="-m-1.5 p-1.5">
+                                <span className="sr-only">Your Company</span>
+                                <img
+                                  className="h-8"
+                                  src={logo}
+                                  alt=""
+                                />
+                              </a>
+                            </div>
+                            <div className="flex">
+                              <button
+                                type="button"
+                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <span className="sr-only">Close menu</span>
+                                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                              </button>
+                            </div>
+                          </div>
+                          <div className="mt-6 flow-root">
+                            <div className="-my-6 divide-y divide-gray-500/10">
+                              <div className="space-y-2 py-6">
+                                <Link to="/admin/dashboard" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  Admin Dashboard
+                                </Link>
+                                <Link to="/admin/manageUser" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  User Management
+                                </Link>
+                                <Link to="/admin/manageVendor" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  Vendor Management
+                                </Link>
+                                <Link to="/admin/manageCategory" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">
+                                  Category Management
+                                </Link>
+                              </div>
+                              <div className="py-6">
+                                {token &&
+                                  <Link
+                                    to='/login'
+                                    onClick={logout}
+                                    className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
+                                  >
+                                    Logout
+                                  </Link>}
+                                {!token &&
+                                  <Link
+                                    to='/login'
+                                    className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
+                                  >
+                                    Login
+                                  </Link>
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </Dialog.Panel>
+                      </Dialog>
+                    </div>
                   </li>
                 </ul>
               </div>
