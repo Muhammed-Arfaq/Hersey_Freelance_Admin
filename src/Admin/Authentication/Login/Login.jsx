@@ -34,7 +34,7 @@ export default function AdminLogin() {
     await adminLogin
       .validate(formData, { abortEarly: false })
       .then(() => {
-        axios.post("http://localhost:3500/admin/login", {
+        axios.post("https://www.herseymensformals.ml/admin/login", {
           email,
           password
         }).then((result) => {
