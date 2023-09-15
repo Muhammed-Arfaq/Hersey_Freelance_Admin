@@ -34,7 +34,7 @@ export default function AdminLogin() {
     await adminLogin
       .validate(formData, { abortEarly: false })
       .then(() => {
-        axios.post("https://www.herseymensformals.ml/admin/login", {
+        axios.post("https://herseyfreelance.cyclic.app/admin/login", {
           email,
           password
         }).then((result) => {
